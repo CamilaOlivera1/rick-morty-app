@@ -1,14 +1,17 @@
 <h2 class="title">Personajes de Rick and Morty</h2>
-<div class="search-container">
+
+<form class="search-container" (submit)="searchCharacters(); $event.preventDefault()">
   <input
     type="text"
     [(ngModel)]="searchTerm"
+    name="searchTerm"
     placeholder="Buscar personaje"
+    autocomplete="off"
   />
-  <button (click)="searchCharacters()">Buscar</button>
-</div>
+  <button type="submit">Buscar</button>
+</form>
 
-<div class="card-container">
+<div class="card-container" *ngIf="characters.length > 0">
   <div class="card" *ngFor="let character of characters">
     <img [src]="character.image" [alt]="character.name" />
     <h3>{{ character.name }}</h3>

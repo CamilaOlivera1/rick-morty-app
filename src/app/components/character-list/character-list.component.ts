@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,9 +23,9 @@ export class CharacterListComponent implements OnInit {
   }
 
   searchCharacters(): void {
-    this.rickMortyService.getCharacters(this.searchTerm).subscribe((data: any) => {
+    const query = this.searchTerm.trim();
+    this.rickMortyService.getCharacters(query).subscribe((data: any) => {
       this.characters = data.results || [];
     });
   }
 }
-
