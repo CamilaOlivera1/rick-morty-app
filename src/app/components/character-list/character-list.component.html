@@ -1,0 +1,18 @@
+<h2 class="title">Personajes de Rick and Morty</h2>
+<div class="search-container">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    placeholder="Buscar personaje"
+  />
+  <button (click)="searchCharacters()">Buscar</button>
+</div>
+
+<div class="card-container">
+  <div class="card" *ngFor="let character of characters">
+    <img [src]="character.image" [alt]="character.name" />
+    <h3>{{ character.name }}</h3>
+    <p>Especie: {{ character.species }}</p>
+    <p>Estado: {{ character.status }}</p>
+  </div>
+</div>

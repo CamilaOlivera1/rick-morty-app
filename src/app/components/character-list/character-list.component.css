@@ -1,0 +1,87 @@
+:host {/*COMPONENTE*/
+  display: block;
+  background-color: #000000;
+  padding: 20px;
+  min-height: 100vh;
+  color: #ffffff;
+}
+/* Contenedor del buscador */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  text-align: center;
+  color: #00ffea; /* un turquesa llamativo */
+  text-shadow: 2px 2px 5px #000;
+  margin-bottom: 25px;
+  user-select: none;
+}
+
+/* Estilo del input de búsqueda */
+.search-container input[type="text"] {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 250px;
+  transition: border-color 0.3s ease;
+}
+
+.search-container input[type="text"]:focus {
+  border-color: #3f51b5; 
+  outline: none;
+}
+
+/* Estilo del botón de búsqueda */
+.search-container button {
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+  background-color: #303f9f;
+}
+
+/* Contenedor de las tarjetas */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+/* Estilo de cada tarjeta */
+.card {
+  background-color: #282c34;
+  color: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Imagen personaje */
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
