@@ -8,6 +8,35 @@
     placeholder="Buscar personaje"
     autocomplete="off"
   />
+
+  <div class="filters-container">
+    <select [(ngModel)]="status" name="status">
+      <option value="">Estado</option>
+      <option value="alive">Vivo</option>
+      <option value="dead">Muerto</option>
+      <option value="unknown">Desconocido</option>
+    </select>
+
+    <select [(ngModel)]="gender" name="gender">
+      <option value="">Género</option>
+      <option value="male">Masculino</option>
+      <option value="female">Femenino</option>
+      <option value="genderless">Sin género</option>
+      <option value="unknown">Desconocido</option>
+    </select>
+
+    <select [(ngModel)]="species" name="species">
+      <option value="">Especie</option>
+      <option value="Human">Humano</option>
+      <option value="Alien">Alien</option>
+      <option value="Humanoid">Humanoide</option>
+      <option value="Animal">Animal</option>
+    </select>
+  </div>
+  <p *ngIf="noResults" class="no-results">
+  No se encontraron personajes con esos filtros.
+</p>
+
   <button type="submit">Buscar</button>
 </form>
 
@@ -17,5 +46,6 @@
     <h3>{{ character.name }}</h3>
     <p>Especie: {{ character.species }}</p>
     <p>Estado: {{ character.status }}</p>
+    <p>Género: {{ character.gender }}</p>
   </div>
 </div>

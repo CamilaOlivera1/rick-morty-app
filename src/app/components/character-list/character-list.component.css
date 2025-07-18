@@ -148,3 +148,54 @@
     gap: 16px;
   }
 }
+
+/* Filtros */
+.filters-container select {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #555;
+  background-color: #121212;
+  color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filters-container select:focus {
+  border-color: #00ffea;
+  box-shadow: 0 0 8px #00ffea;
+  outline: none;
+}
+
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.no-results {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.1rem;
+  color: #ff6b6b;
+  background-color: #1e2228;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+
