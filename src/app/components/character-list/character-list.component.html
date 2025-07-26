@@ -33,12 +33,14 @@
       <option value="Animal">Animal</option>
     </select>
   </div>
-  <p *ngIf="noResults" class="no-results">
-  No se encontraron personajes con esos filtros.
-</p>
 
   <button type="submit">Buscar</button>
+  <button *ngIf="hasSearched" type="button" (click)="resetFilters()">Restablecer filtros</button>
 </form>
+
+<p *ngIf="noResults" class="no-results">
+  No se encontraron personajes con esos filtros.
+</p>
 
 <div class="card-container" *ngIf="characters.length > 0">
   <div class="card" *ngFor="let character of characters">

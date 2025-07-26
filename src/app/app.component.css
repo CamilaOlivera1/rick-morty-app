@@ -1,0 +1,67 @@
+/* Estilo general del header */
+.header-container {
+  background-color: black;
+  color: white;
+  padding: 1rem;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Contenedor de los botones */
+.auth-buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 12px;
+  z-index: 1000;
+}
+
+/* Estilo base para todos los botones */
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Botones por defecto: Iniciar sesión y Registrarse */
+button.default {
+  background-color: #bb86fc; /* Lila */
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(187, 134, 252, 0.3);
+}
+
+button.default:hover {
+  background-color: #9a6aff;
+  box-shadow: 0 6px 14px rgba(187, 134, 252, 0.6);
+}
+
+/* Botón Favoritos */
+button.favoritos-btn {
+  background-color: #ff80c5; /* Rosa suave */
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 128, 197, 0.4);
+}
+
+button.favoritos-btn:hover {
+  background-color: #e86aad;
+  box-shadow: 0 6px 12px rgba(255, 128, 197, 0.6);
+}
+
+/* Botón Cerrar Sesión */
+button.logout-btn {
+  background-color: #ff6b6b; /* Rojo coral */
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
+}
+
+button.logout-btn:hover {
+  background-color: #e25555;
+  box-shadow: 0 6px 12px rgba(255, 107, 107, 0.6);
+}

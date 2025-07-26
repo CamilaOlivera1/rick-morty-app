@@ -40,3 +40,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+# Firebase config (no subir archivos sensibles)
+.firebase/
+.firebaserc
+firebase.json
+
+# Environment files (claves de conexión, etc.)
+src/environment/
