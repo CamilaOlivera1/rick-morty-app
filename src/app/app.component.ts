@@ -42,6 +42,8 @@ export class AppComponent {
 
   // Muestra Favoritos y Cerrar sesión si está logueado
   public showUserButtons(): boolean {
-    return this.isUserLoggedIn;
+    const isLoggedIn = this.authService.getCurrentUser();
+    const isOnHome = this.router.url === '/home';
+    return !!isLoggedIn && isOnHome;
   }
 }

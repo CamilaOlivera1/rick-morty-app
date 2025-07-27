@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RickMortyService } from '../../services/rick-morty.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-character-list',
@@ -16,21 +17,35 @@ export class CharacterListComponent implements OnInit {
   status: string = '';
   species: string = '';
   gender: string = '';
-  noResults: boolean = false; 
+  noResults: boolean = false;
   hasSearched: boolean = false;
 
-  constructor(private rickMortyService: RickMortyService) {}
+  favorites: any[] = [];
+
+  constructor(
+    private rickMortyService: RickMortyService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.searchCharacters(false);  // Carga inicial sin activar hasSearched
+    this.searchCharacters(false);
+
+    // Escucha cuando cambia el usuario (login o logout)
+    this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        const stored = localStorage.getItem(`favorites-${user.uid}`);
+        this.favorites = stored ? JSON.parse(stored) : [];
+      } else {
+        this.favorites = [];
+      }
+    });
   }
 
-  // searchCharacters recibe un parámetro para saber si activar el botón o no
   searchCharacters(fromUserAction: boolean = true): void {
     if (fromUserAction) {
-      this.hasSearched = true; // Solo activar si es búsqueda hecha por usuario
+      this.hasSearched = true;
     }
-    
+
     const name = this.searchTerm.trim();
     const selectedSpecies = this.species.trim();
     const selectedStatus = this.status.trim();
@@ -59,7 +74,28 @@ export class CharacterListComponent implements OnInit {
     this.status = '';
     this.species = '';
     this.gender = '';
-    this.hasSearched = false; // Oculta el botón
-    this.searchCharacters(false); // Recarga sin activar botón
+    this.hasSearched = false;
+    this.searchCharacters(false);
+  }
+
+  toggleFavorite(character: any): void {
+    const user = this.authService.getCurrentUser();
+    if (!user) {
+      alert('Debes iniciar sesión para agregar a favoritos ❤️');
+      return;
+    }
+
+    if (this.isFavorite(character)) {
+      this.favorites = this.favorites.filter(fav => fav.id !== character.id);
+    } else {
+      this.favorites.push(character);
+    }
+
+    // Guardar favoritos actualizados en localStorage
+    localStorage.setItem(`favorites-${user.uid}`, JSON.stringify(this.favorites));
+  }
+
+  isFavorite(character: any): boolean {
+    return this.favorites.some(fav => fav.id === character.id);
   }
 }

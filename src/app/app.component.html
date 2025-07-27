@@ -11,6 +11,13 @@
       <button routerLink="/favoritos" class="favoritos-btn">Favoritos</button>
       <button (click)="logout()" class="logout-btn">Cerrar sesión</button>
     </ng-container>
+    <!-- Botón solo visible si está en /favoritos -->
+     <ng-container *ngIf="router.url === '/favoritos'">
+      <div class="volver-container">
+        <button routerLink="/home" class="default">Volver al inicio</button>
+      </div>
+    </ng-container>
+
   </div>
 </div>
 

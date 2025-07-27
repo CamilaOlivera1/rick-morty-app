@@ -65,3 +65,8 @@ button.logout-btn:hover {
   background-color: #e25555;
   box-shadow: 0 6px 12px rgba(255, 107, 107, 0.6);
 }
+
+.volver-container {
+  text-align: center;
+  margin-top: 10px;
+}
