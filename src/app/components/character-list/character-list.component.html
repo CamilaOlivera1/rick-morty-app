@@ -42,32 +42,15 @@
   No se encontraron personajes con esos filtros.
 </p>
 
-<!-- class="card-container" *ngIf="characters.length > 0">
-  <div class="card" *ngFor="let character of characters">
-    <img [src]="character.image" [alt]="character.name" />
-    <h3>{{ character.name }}</h3>
-    <p>Especie: {{ character.species }}</p>
-    <p>Estado: {{ character.status }}</p>
-    <p>Género: {{ character.gender }}</p>
-  </div>
-</div>
-
-<div class="character-card" (dblclick)="toggleFavorite(character)">
-   contenido de la tarjeta 
-  <div class="heart-icon" *ngIf="isFavorite(character)">
-    ❤️
-  </div>
-</div>-->
-
-
+<!-- Resultados -->
 <div class="card-container" *ngIf="characters.length > 0">
   <div
     class="card"
     *ngFor="let character of characters"
     (dblclick)="toggleFavorite(character)"
   >
-    <!-- Corazón -->
-    <span *ngIf="isFavorite(character)" class="heart-icon">❤️</span>
+    <!-- ❤️ Solo si es favorito -->
+    <div class="heart-icon" *ngIf="isFavorite(character)">❤️</div>
 
     <img [src]="character.image" [alt]="character.name" />
     <h3>{{ character.name }}</h3>

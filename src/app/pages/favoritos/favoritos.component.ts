@@ -6,7 +6,6 @@ import { CharacterListService } from '../../services/character-list.service';
 import { filter } from 'rxjs/operators';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-
 @Component({
   selector: 'app-favoritos',
   standalone: true,
@@ -35,7 +34,6 @@ export class FavoritosComponent implements OnInit {
   ngOnInit(): void {
     this.loadFavorites();
 
-    // Escuchamos cuando el usuario vuelve a /favoritos para recargar
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -43,33 +41,24 @@ export class FavoritosComponent implements OnInit {
     });
   }
 
-  loadFavorites(): void {
-  const user = this.authService.getCurrentUser();
-  if (user) {
-    const favoritosRaw = this.characterListService.getFavorites();
-    this.favoritos = favoritosRaw.map(character => ({
-      ...character,
-      removing: false
-    }));
-  } else {
-    this.favoritos = [];
+  async loadFavorites(): Promise<void> {
+    const user = this.authService.getCurrentUser();
+    if (user) {
+      const favoritosRaw = await this.characterListService.getFavorites();
+      this.favoritos = favoritosRaw.map(character => ({
+        ...character,
+        removing: false
+      }));
+    } else {
+      this.favoritos = [];
+    }
   }
-}
-eliminarFavorito(character: any): void {
-  character.removing = true;
-  setTimeout(() => {
-    this.characterListService.removeFavorite(character);
-    this.favoritos = this.favoritos.filter(fav => fav.id !== character.id);
-  }, 300);
-}
 
-
- /*eliminarFavorito(character: any): void {
+  async eliminarFavorito(character: any): Promise<void> {
     character.removing = true;
-    setTimeout(() => {
-      this.characterListService.removeFavorite(character);
-      this.favoritos = this.characterListService.getFavorites();
-      this.favoritos.forEach(fav => fav.removing = false);
-    }, 300); // tiempo de la animación
-  }*/
+    setTimeout(async () => {
+      await this.characterListService.removeFavorite(character);
+      await this.loadFavorites(); // ✅ volvemos a cargar toda la lista actualizada
+    }, 300); // tiempo de animación
+  }
 }

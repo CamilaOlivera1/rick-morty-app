@@ -1,37 +1,41 @@
 import { Injectable } from '@angular/core';
+import { Firestore, collection, addDoc, deleteDoc, getDocs, query, where, doc } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class CharacterListService {
-  constructor(private authService: AuthService) {}
+  constructor(private firestore: Firestore, private authService: AuthService) {}
 
-  getFavorites(): any[] {
+  async getFavorites(): Promise<any[]> {
     const user = this.authService.getCurrentUser();
     if (!user) return [];
-    const stored = localStorage.getItem(`favorites-${user.uid}`);
-    return stored ? JSON.parse(stored) : [];
+
+    const favoritesRef = collection(this.firestore, 'favoritos');
+    const q = query(favoritesRef, where('uid', '==', user.uid));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => doc.data());
   }
 
-  addFavorite(character: any): void {
-    const favorites = this.getFavorites();
-    favorites.push(character);
+  async addFavorite(character: any): Promise<void> {
     const user = this.authService.getCurrentUser();
-    if (user) {
-      localStorage.setItem(`favorites-${user.uid}`, JSON.stringify(favorites));
-    }
+    if (!user) return;
+
+    const favoritosRef = collection(this.firestore, 'favoritos');
+    await addDoc(favoritosRef, {
+      ...character,
+      uid: user.uid
+    });
   }
 
-  removeFavorite(character: any): void {
-    const favorites = this.getFavorites().filter(fav => fav.id !== character.id);
+  async removeFavorite(character: any): Promise<void> {
     const user = this.authService.getCurrentUser();
-    if (user) {
-      localStorage.setItem(`favorites-${user.uid}`, JSON.stringify(favorites));
-    }
-  }
+    if (!user) return;
 
-  isFavorite(character: any): boolean {
-    return this.getFavorites().some(fav => fav.id === character.id);
+    const favoritosRef = collection(this.firestore, 'favoritos');
+    const q = query(favoritosRef, where('uid', '==', user.uid), where('id', '==', character.id));
+    const snapshot = await getDocs(q);
+    for (const docSnap of snapshot.docs) {
+      await deleteDoc(doc(this.firestore, 'favoritos', docSnap.id));
+    }
   }
 }

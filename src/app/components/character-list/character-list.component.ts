@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RickMortyService } from '../../services/rick-morty.service';
 import { AuthService } from '../../services/auth.service';
+import { CharacterListService } from '../../services/character-list.service';
 
 @Component({
   selector: 'app-character-list',
@@ -19,22 +20,21 @@ export class CharacterListComponent implements OnInit {
   gender: string = '';
   noResults: boolean = false;
   hasSearched: boolean = false;
-
   favorites: any[] = [];
 
   constructor(
     private rickMortyService: RickMortyService,
-    private authService: AuthService
+    private authService: AuthService,
+    private characterListService: CharacterListService
   ) {}
 
   ngOnInit(): void {
     this.searchCharacters(false);
 
-    // Escucha cuando cambia el usuario (login o logout)
-    this.authService.currentUser$.subscribe(user => {
+    // Escuchamos login/logout
+    this.authService.currentUser$.subscribe(async user => {
       if (user) {
-        const stored = localStorage.getItem(`favorites-${user.uid}`);
-        this.favorites = stored ? JSON.parse(stored) : [];
+        this.favorites = await this.characterListService.getFavorites();
       } else {
         this.favorites = [];
       }
@@ -42,31 +42,24 @@ export class CharacterListComponent implements OnInit {
   }
 
   searchCharacters(fromUserAction: boolean = true): void {
-    if (fromUserAction) {
-      this.hasSearched = true;
-    }
+    if (fromUserAction) this.hasSearched = true;
 
     const name = this.searchTerm.trim();
     const selectedSpecies = this.species.trim();
     const selectedStatus = this.status.trim();
     const selectedGender = this.gender.trim();
 
-    this.rickMortyService.getCharacters(
-      name,
-      selectedStatus,
-      selectedSpecies,
-      selectedGender
-    ).subscribe({
-      next: (data: any) => {
-        this.characters = data.results || [];
-        this.noResults = this.characters.length === 0;
-      },
-      error: (error) => {
-        console.error('Error al obtener personajes:', error);
-        this.characters = [];
-        this.noResults = true;
-      }
-    });
+    this.rickMortyService.getCharacters(name, selectedStatus, selectedSpecies, selectedGender)
+      .subscribe({
+        next: (data: any) => {
+          this.characters = data.results || [];
+          this.noResults = this.characters.length === 0;
+        },
+        error: () => {
+          this.characters = [];
+          this.noResults = true;
+        }
+      });
   }
 
   resetFilters(): void {
@@ -78,21 +71,22 @@ export class CharacterListComponent implements OnInit {
     this.searchCharacters(false);
   }
 
-  toggleFavorite(character: any): void {
+  async toggleFavorite(character: any): Promise<void> {
     const user = this.authService.getCurrentUser();
     if (!user) {
       alert('Debes iniciar sesión para agregar a favoritos ❤️');
       return;
     }
 
-    if (this.isFavorite(character)) {
+    const alreadyFavorite = this.isFavorite(character);
+
+    if (alreadyFavorite) {
+      await this.characterListService.removeFavorite(character);
       this.favorites = this.favorites.filter(fav => fav.id !== character.id);
     } else {
+      await this.characterListService.addFavorite(character);
       this.favorites.push(character);
     }
-
-    // Guardar favoritos actualizados en localStorage
-    localStorage.setItem(`favorites-${user.uid}`, JSON.stringify(this.favorites));
   }
 
   isFavorite(character: any): boolean {
