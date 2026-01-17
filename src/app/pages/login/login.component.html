@@ -1,0 +1,18 @@
+<form (submit)="login(); $event.preventDefault()">
+  <h2 class="form-title">Iniciar Sesión</h2>
+
+  <input type="email" [(ngModel)]="email" name="email" placeholder="Correo electrónico" required />
+  <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña" required />
+  <button type="submit">Ingresar</button>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <p *ngIf="successMessage" class="success-message">
+  {{ successMessage }}<br />
+  Serás redirigido al inicio en unos segundos...
+</p>
+  <p class="extra-links">
+  ¿No tienes una cuenta?
+  <a [routerLink]="'/register'">Regístrate aquí</a><br />
+  <a [routerLink]="'/home'">Volver al inicio</a>
+</p>
+  
+</form>

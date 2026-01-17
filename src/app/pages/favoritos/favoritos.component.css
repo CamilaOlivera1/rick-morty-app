@@ -1,0 +1,103 @@
+:host {
+  display: block;
+  padding: 20px;
+  background-color: #000;
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Título */
+.title {
+  font-weight: 700;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  text-align: center;
+  color: #00ffea;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  margin-bottom: 30px;
+}
+
+/* Contenedor de tarjetas */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  padding: 10px;
+}
+
+/* Tarjetas de personaje */
+.card {
+  background-color: #1e2228;
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 255, 234, 0.7);
+}
+
+/* Imagen del personaje */
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  object-fit: cover;
+}
+
+/* Nombre del personaje */
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  color: #00ffea;
+}
+
+/* Info del personaje */
+.card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+/* Mensaje cuando no hay favoritos */
+.no-results {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.1rem;
+  color: #ff6b6b;
+  background-color: #1e2228;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+/*eliminar favorito*/
+.remove-btn {
+  margin-top: 12px;
+  padding: 8px 14px;
+  background-color: #ff4d4d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.remove-btn:hover {
+  background-color: #e04343;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+}

@@ -1,0 +1,21 @@
+<h2 class="title">Tus personajes favoritos 💖</h2>
+
+<div class="card-container" *ngIf="favoritos.length > 0; else noFavoritos">
+  <div class="card"
+       *ngFor="let character of favoritos"
+       [@fadeOut]="character.removing ? 'out' : 'in'">
+    <img [src]="character.image" [alt]="character.name" />
+    <h3>{{ character.name }}</h3>
+    <p>Especie: {{ character.species }}</p>
+    <p>Estado: {{ character.status }}</p>
+    <p>Género: {{ character.gender }}</p>
+
+    <button (click)="eliminarFavorito(character)" class="remove-btn">
+      Quitar de favoritos 💔
+    </button>
+  </div>
+</div>
+
+<ng-template #noFavoritos>
+  <p class="no-results">Aún no tienes personajes en favoritos. ¡Agrega algunos con un doble clic!</p>
+</ng-template>

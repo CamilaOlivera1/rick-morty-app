@@ -1,1 +1,24 @@
-<app-character-list></app-character-list>
+<div class="header-container">
+  <div class="auth-buttons" *ngIf="!isAuthPage()">
+    <!-- Botones si NO está logueado y está en /home -->
+     <ng-container *ngIf="showGuestButtons()">
+      <button routerLink="/login" class="default">Iniciar sesión</button>
+      <button routerLink="/register" class="default">Registrarse</button>
+    </ng-container>
+
+    <!-- Botones si SÍ está logueado -->
+    <ng-container *ngIf="showUserButtons()">
+      <button routerLink="/favoritos" class="favoritos-btn">Favoritos</button>
+      <button (click)="logout()" class="logout-btn">Cerrar sesión</button>
+    </ng-container>
+    <!-- Botón solo visible si está en /favoritos -->
+     <ng-container *ngIf="router.url === '/favoritos'">
+      <div class="volver-container">
+        <button routerLink="/home" class="default">Volver al inicio</button>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
+
+<router-outlet></router-outlet>

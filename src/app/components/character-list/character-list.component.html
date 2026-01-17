@@ -1,18 +1,61 @@
 <h2 class="title">Personajes de Rick and Morty</h2>
-<div class="search-container">
+
+<form class="search-container" (submit)="searchCharacters(); $event.preventDefault()">
   <input
     type="text"
     [(ngModel)]="searchTerm"
+    name="searchTerm"
     placeholder="Buscar personaje"
+    autocomplete="off"
   />
-  <button (click)="searchCharacters()">Buscar</button>
-</div>
 
-<div class="card-container">
-  <div class="card" *ngFor="let character of characters">
+  <div class="filters-container">
+    <select [(ngModel)]="status" name="status">
+      <option value="">Estado</option>
+      <option value="alive">Vivo</option>
+      <option value="dead">Muerto</option>
+      <option value="unknown">Desconocido</option>
+    </select>
+
+    <select [(ngModel)]="gender" name="gender">
+      <option value="">Género</option>
+      <option value="male">Masculino</option>
+      <option value="female">Femenino</option>
+      <option value="genderless">Sin género</option>
+      <option value="unknown">Desconocido</option>
+    </select>
+
+    <select [(ngModel)]="species" name="species">
+      <option value="">Especie</option>
+      <option value="Human">Humano</option>
+      <option value="Alien">Alien</option>
+      <option value="Humanoid">Humanoide</option>
+      <option value="Animal">Animal</option>
+    </select>
+  </div>
+
+  <button type="submit">Buscar</button>
+  <button *ngIf="hasSearched" type="button" (click)="resetFilters()">Restablecer filtros</button>
+</form>
+
+<p *ngIf="noResults" class="no-results">
+  No se encontraron personajes con esos filtros.
+</p>
+
+<!-- Resultados -->
+<div class="card-container" *ngIf="characters.length > 0">
+  <div
+    class="card"
+    *ngFor="let character of characters"
+    (dblclick)="toggleFavorite(character)"
+  >
+    <!-- ❤️ Solo si es favorito -->
+    <div class="heart-icon" *ngIf="isFavorite(character)">❤️</div>
+
     <img [src]="character.image" [alt]="character.name" />
     <h3>{{ character.name }}</h3>
     <p>Especie: {{ character.species }}</p>
     <p>Estado: {{ character.status }}</p>
+    <p>Género: {{ character.gender }}</p>
   </div>
 </div>
